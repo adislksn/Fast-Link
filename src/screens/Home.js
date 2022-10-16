@@ -1,41 +1,74 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Keyboard, Alert} from 'react-native';
 // import LinearGradient from 'react-native-linear-gradient';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import Card from "../components/Card";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {obj} from "../database";
 
 const Home = () =>{
-    const [link, setLink] = useState(""); 
-    const [judul, setJudul] = useState(""); 
-    const [value, setValue] = useState("");
+    let storingLink = obj;
+    const [key, setKey] = useState("");
+    const [link, setLink] = useState("");
 
-    const handleAddLink = () =>{
-        if(link){
-        AsyncStorage.setItem("judul", link);
+    const handleAddLink = () => {
+        if (link){
+        Keyboard.dismiss();
+        storingLink.push({
+            judul:key,
+            hyperlink:link
+        });
+        setKey("");
         setLink("");
-        setJudul("");
-        alert("Data Saved!");
         }else{
-            alert("Data is empty!");
+            alert("At least input link");
         }
     }
-
-    const showData = () =>{
-        AsyncStorage.getItem("judul",value)
-        .then((value) => {setValue(value);
-        })
-    }
-
-    const deleteData = () =>{
-        AsyncStorage.removeItem("judul", "value")
+    
+    const deleteLink = (index) => {
+        Alert.alert(
+            "Delete link?",
+            "This action can't be undo",
+            [
+            {
+                text: "Cancel",
+                onPress: () =>{},
+                style: "cancel"
+            },
+            { text: "OK", 
+                onPress: () => {
+                let tempLink = [...storingLink];
+                tempLink.splice(index, 1);
+                storingLink=[...tempLink];
+            } 
+            }
+            ]);
     }
 
     return(
-        <View>
-        
+        <View className="flex-1">
+            <ScrollView contentContainerStyle={{flexGrow: 1}}keyboardShouldPersistTaps='handled'>
+            {
+            storingLink.map((obj, index) => {
+                return (
+                <View className="items-center py-3">
+                    <View className="flex-row justify-around items-center bg-violet-200 w-10/12 rounded-full">
+                        <TouchableOpacity >
+                            <Card linked={obj.hyperlink} keys={obj.judul}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity className="ml-16" key={index} onPress={()=>deleteLink(index)}>
+                            <View>
+                                <Text className="text-xl">❌</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                )
+            })
+        }
+        </ScrollView>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} className="pt-3 w-max flex-row justify-around items-center">
         <View className="flex-col">
-            <TextInput className="p-4 my-2 bg-slate-50 rounded-full border-violet-500 border w-64 shadow shadow-black" placeholder={'Ketik Judul Link'} value={judul} onChangeText={text => setJudul(text)} />
+            <TextInput className="p-4 my-2 bg-slate-50 rounded-full border-violet-500 border w-64 shadow shadow-black" placeholder={'Ketik Judul Link'} value={key} onChangeText={text => setKey(text)} />
             <TextInput className="p-4 my-2 bg-slate-50 rounded-full border-violet-500 border w-64 shadow shadow-black" placeholder={'Ketik Link'} value={link} onChangeText={text => setLink(text)} />
         </View>
         <TouchableOpacity onPress={() => handleAddLink()}>
@@ -44,10 +77,6 @@ const Home = () =>{
             </View>
         </TouchableOpacity>
         </KeyboardAvoidingView>
-        <TouchableOpacity onPress={()=>showData()}>
-            <Text>Show Saved Data</Text>
-        </TouchableOpacity>
-            <Card text={judul} link={value}/>
         </View>
     );
 }
