@@ -45,17 +45,17 @@ const Home = () =>{
     }
 
     return(
-        <View className="flex-1">
+        <View className="flex-1 pt-4 pb-3">
             <ScrollView contentContainerStyle={{flexGrow: 1}}keyboardShouldPersistTaps='handled'>
             {
             storingLink.map((obj, index) => {
                 return (
                 <View className="items-center py-3">
-                    <View className="flex-row justify-around items-center bg-violet-200 w-10/12 rounded-full">
+                    <View className="flex-row justify-around items-center bg-violet-200 w-10/12 rounded-xl">
                         <TouchableOpacity >
-                            <Card linked={obj.hyperlink} keys={obj.judul}/>
+                            <Card linked={obj.hyperlink} keys={obj.judul} key={index}/>
                         </TouchableOpacity>
-                        <TouchableOpacity className="ml-16" key={index} onPress={()=>deleteLink(index)}>
+                        <TouchableOpacity className="" key={index} onPress={()=>deleteLink(index)}>
                             <View>
                                 <Text className="text-xl">❌</Text>
                             </View>
