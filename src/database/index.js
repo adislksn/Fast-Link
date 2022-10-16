@@ -20,20 +20,3 @@ export const obj = [
     hyperlink: "https://github.com/adislksn"
 },
 ];
-        // console.log(Object.entries(obj)[1]);
-        // console.log(obj.forEach());
-        
-        // obj.push({
-        //     jadwal_id:"21",
-        //     maskapai_id:"IJA"
-        // });
-
-        // for(let i=0; i<obj.length; i++){
-        // console.log((obj[i].maskapai_id));
-        // }
-
-        // obj.map((obj, index) =>{
-        //         console.log(obj);
-        //         console.log(obj.jadwal_id);
-                
-        // });
