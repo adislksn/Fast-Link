@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Keyboard, Alert} from 'react-native';
-// import LinearGradient from 'react-native-linear-gradient';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import {View, Text, TextInput, Linking, TouchableOpacity, KeyboardAvoidingView, ScrollView, Keyboard, Alert} from 'react-native';
 import Card from "../components/Card";
 import {obj} from "../database";
 
@@ -52,7 +50,7 @@ const Home = () =>{
                 return (
                 <View className="items-center py-3">
                     <View className="flex-row justify-around items-center bg-violet-200 w-10/12 rounded-xl">
-                        <TouchableOpacity >
+                        <TouchableOpacity onPress={()=> Linking.openURL(obj.hyperlink)}>
                             <Card linked={obj.hyperlink} keys={obj.judul} key={index}/>
                         </TouchableOpacity>
                         <TouchableOpacity className="" key={index} onPress={()=>deleteLink(index)}>
