@@ -34,9 +34,10 @@ const Home = () =>{
             },
             { text: "OK", 
                 onPress: () => {
-                let tempLink = [...storingLink];
-                tempLink.splice(index, 1);
-                storingLink=[...tempLink];
+                // let tempLink = [...storingLink];
+                // tempLink.splice(index, 1);
+                // storingLink=tempLink;
+                delete storingLink[index];
             } 
             }
             ]);
